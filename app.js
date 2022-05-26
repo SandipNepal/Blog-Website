@@ -26,8 +26,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// const loginID = process.env.LOGIN;
-// mongoose.connect("mongodb://localhost:27017/blogDB");
 mongoose.connect(process.env.DB_URL || "mongodb://localhost:27017/blogDB", {
   useNewUrlParser:true,
   useUnifiedTopology:true
@@ -93,6 +91,16 @@ app.get("/posts/:postId", function(req, res) {
     });
   });
 });
+
+app.post("/delete", function(req,res){
+  const idDelete= req.body.button;
+  Post.findByIdAndRemove(idDelete,function(err){
+    if(!err){
+      console.log("successfully deleted");
+    }
+    res.redirect("/");
+  });
+  });
 
 let port = process.env.PORT;
 if (port == null || port == "") {
