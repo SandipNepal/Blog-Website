@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 
 const bodyParser = require("body-parser");
@@ -24,7 +26,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-mongoose.connect("mongodb://localhost:27017/blogDB");
+const loginID = process.env.LOGIN
+// mongoose.connect("mongodb://localhost:27017/blogDB");
+mongoose.connect(`mongodb+srv://admin-sandip:${loginID}@cluster0.bfgn0.mongodb.net/blogDB`);
 
 const postSchema = {
   title: String,
@@ -34,7 +38,6 @@ const postSchema = {
 let posts = [];
 
 const Post = mongoose.model("Post", postSchema);
-
 
 app.get("/", function(req, res) {
   Post.find({}, function(err, posts) {
