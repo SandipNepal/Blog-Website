@@ -26,9 +26,12 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-const loginID = process.env.LOGIN;
+// const loginID = process.env.LOGIN;
 // mongoose.connect("mongodb://localhost:27017/blogDB");
-mongoose.connect('mongodb+srv://admin-sandip:'+loginID+'@cluster0.bfgn0.mongodb.net/blogDB');
+mongoose.connect(process.env.DB_URL || "mongodb://localhost:27017/blogDB", {
+  useNewUrlParser:true,
+  useUnifiedTopology:true
+});
 
 const postSchema = {
   title: String,
